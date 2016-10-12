@@ -9,8 +9,8 @@ uri_project='projectId='
 uri_rsc='resources='
 uri_and='&'
 
-LONGIN='WebINFO'
-PW='MPINFO'
+LONGIN='YourLogin'
+PW='Yourpassword'
 
 RESOURCES='483'
 PROJECTID='15'
