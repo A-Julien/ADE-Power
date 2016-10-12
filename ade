@@ -1,0 +1,33 @@
+#!/bin/sh
+HTML_FILE="$(mktemp)"
+COOKIES_FILE="$(mktemp)"
+URI_origin='http://www-ade.iut2.upmf-grenoble.fr/ade/custom/modules/plannings/direct_planning.jsp?'
+
+uri_login='login='
+uri_pwd='password='
+uri_project='projectId='
+uri_rsc='resources='
+uri_and='&'
+
+LONGIN='WebINFO'
+PW='MPINFO'
+
+RESOURCES='483'
+PROJECTID='15'
+
+echo "----------------- Get Table ------------------ "
+
+echo "|---------------|"
+echo "|projectId =  "$PROJECTID"|"
+echo "|resources = "$RESOURCES"|"
+echo "|---------------|"
+
+
+URI=$URI_origin$uri_login$LONGIN$uri_and$uri_pwd$PW$uri_and$uri_project$PROJECTID$uri_and$uri_rsc$RESOURCES
+
+echo $URI
+
+wget --save-cookies $COOKIES_FILE --keep-session-cookies -O $HTML_FILE "$URI" 
+wget --load-cookies $COOKIES_FILE -O ./ade.html "http://www-ade.iut2.upmf-grenoble.fr/ade/custom/modules/plannings/info.jsp"
+
+echo "--------------------- END -------------------- "
