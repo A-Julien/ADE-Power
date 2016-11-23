@@ -21,8 +21,17 @@ Ade-Power is a converter from ***ADE expert*** calandar to ical and ics format. 
 ###  /!\ You need to change all /YOURPATH/  /!\
 
 ## 2 - Parse Html with Beautiful Soup in PYTHON
-#### You need install Beautiful Soup with pip :
+#### 1 You need install Beautiful Soup with pip :
  ```pip install beautifulsoup4```
+#### 2 Parsing
+
+Ade don't give the end of the classes, so you need to write it in the parser.py for exemple :
+
+```cours_1h			=	["S2107 - Ex supp","S1106 - TDPP dec",]```
+```cours_1h30			=	["S1102 - EXAMEN","S1103 - TDMP",]```
+```cours_2h 			=	["S1104 - EXAMEN","S1101-EX",]```
+```cours_3h 			=	["S1201 - TD 2"]```
+###  /!\ You need to change with the same syntax like  it's write in your Ade  /!\
 
 ## 3 - Automate the converter
 
