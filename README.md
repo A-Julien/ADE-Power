@@ -1,4 +1,4 @@
-# ADE-Power
+# ADE-Power /!\ Readme not up to date /!\
 
 <center> 
 	![ade logo](http://adepower.ddns.net/Ade-power.PNG)
