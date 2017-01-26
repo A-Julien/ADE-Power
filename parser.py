@@ -4,7 +4,10 @@
 
 from	bs4			import	BeautifulSoup
 from	datetime	import	*					# gestion des dates
+import sys
 
+utf = sys.argv[1]
+gr = sys.argv[2]
 
 #------ Definition des variables ------#
 MIN_activity		=	2
@@ -15,21 +18,30 @@ ical_title			=	"SUMMARY:"
 ical_location		=	"LOCATION:"
 ical_description	=	"DESCRIPTION:"
 
-
-cours_1h			=	["S2107 - Ex supp","S1106 - TDPP dec","RI visite universite Quebec a Chicoutimi","S1101 - AA","S1101 - TP"]
-cours_1h30			=	["S1102 - EXAMEN","S1103 - TDMP","S1102 - Examen machine","S1103 - TP","S2105 - TDMP dec","S1107 B - TDMP sx dec","S1103 - AA","S1102 - TDMP 2","S1102 - TDMP",
-						"S1102 - TD ATER","S1101 - TDMP","S1102 - TD ATER 2","S1104 - TDMP", "S1202 - TDMP"]
-cours_2h 			=	["S1104 - EXAMEN","S1101-EX","S1107 A - TDMP SX","S1201 - TDMP","S2105 - AA","S1107 B - TDMPdec","S1105 - AA","S1107 A - TDMP","S2105 - TDMP sx dec","S1105 - TDMP",
-						"S1106 - TP dec","S2107 - TDMP","S2107 - TDMP SX","S1205 - TD 2","S1204 - TD 2",
-						"S1107 B - TDMP DEC","S1102 - AA","S1201 - TD 2",
-						"S2107 - TDMP sx","S1101 - Anglais-1","S1104 - TDMP - SX", "S2107 - Ex", "S1203 - TDMP"]
-cours_3h 			=	["S1201 - TD 2"]
-#---------------------------------------#
-
-
 #------ Ouverture des fichiers --------#
-soup 		=	BeautifulSoup(open("/home/pi/public/V2/adePower/utf.html"), "lxml")		# ouvrir le fichier ade.html
-calendar	= 	open("/home/pi/public/V2/adePower/cal.ical", "w")						# creer et écrire dans le fichier cal.ical
+try:
+	soup 		=	BeautifulSoup(open(utf), "lxml")		# ouvrir le fichier ade.html
+except :
+	print ("BeautifulSoup can't open "+utf)
+
+try:
+	calendar	= 	open("./cal-"+gr+".ical", "w") # creer et écrire dans le fichier cal.ical
+except:
+	print ("BeautifulSoup can't open/create cal-"+gr+".ical")
+
+try:
+	cours_unknown = open("/home/pi/adepower/cours/cours_unknown.txt", "w")
+	with open("/home/pi/adepower/cours/cours_1h.txt") as f:
+	    cours_1h = f.read().splitlines() 
+	with open("/home/pi/adepower/cours/cours_1h30.txt") as f:
+	    cours_1h30 = f.read().splitlines() 
+	with open("/home/pi/adepower/cours/cours_2h.txt") as f:
+	    cours_2h = f.read().splitlines() 
+	with open("/home/pi/adepower/cours/cours_3h.txt") as f:
+	     cours_3h = f.read().splitlines() 
+except:
+	print("can't open folders")
+
 #--------------------------------------#
 
 
@@ -37,7 +49,7 @@ calendar	= 	open("/home/pi/public/V2/adePower/cal.ical", "w")						# creer et é
 # --- Gestion des dates --- #
 
 def jour_semaine(jour_entree):			# indique le nombre de jours qu'il faut ajouter au début de la semaine
-	if 		jour_entree == "Lundi":	
+	if 		jour_entree == "Lundi":
 		entier = 0
 	elif 	jour_entree == "Mardi":
 		entier = 1
@@ -48,10 +60,10 @@ def jour_semaine(jour_entree):			# indique le nombre de jours qu'il faut ajouter
 	elif	jour_entree == "Vendredi":
 		entier = 4
 	else:
-		entier = 5 
+		entier = 5
 	return entier
 
-def date_debut(date_entree, jour_entree):	# renvoie la date de début d'événement formatée ical	
+def date_debut(date_entree, jour_entree):	# renvoie la date de début d'événement formatée ical
 	delta				=	jour_semaine(jour_entree)
 	date_entree			=	datetime.strptime(date_entree, '%d %b. %Y%Hh%M') + timedelta(days=delta, hours=-1)
 	event_date_start 	=	date_entree.strftime('%Y%m%dT%H%M%SZ')
@@ -67,15 +79,16 @@ def duree_cours(code_cours):				# renvoie la durée du cours en fonction de son 
 		delta 	= 	2
 	else								:
 		print "Le code cours " + code_cours + " n'est pas dans une liste de cours!"
-		delta = 1
-		
+		cours_unknown.write(code_cours + "\n")
+		delta = 2
+
 	return delta
 
 def date_fin(date_entree, code_cours, jour_entree):		# renvoie la date de fin de cours en fonction du code cours
 	duree				=	duree_cours				(	code_cours						)
 	delta				=	jour_semaine			(	jour_entree						)
 	date_entree 		=	datetime.strptime		(	date_entree, 	'%d %b. %Y%Hh%M')
-	date_fin 			=	date_entree + timedelta	(days=delta,		hours=duree-1	)
+	date_fin 			=	date_entree + timedelta	(	days=delta,		hours=duree-1	)
 	event_date_end 		=	date_fin.strftime		(	'%Y%m%dT%H%M%SZ'				)
 	return event_date_end
 
@@ -89,7 +102,7 @@ def date_fin(date_entree, code_cours, jour_entree):		# renvoie la date de fin de
 
 activity	=	soup.find_all('tr')								# recherche chaque ligne du tableau
 
-calendar.write("BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//adePower/airCstnr//ADETOICAL v1.0//FR\n") # introduction du fichier ical
+calendar.write("BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//adePower//ADETOICAL v2.1//FR\n") # introduction du fichier ical
 
 #print activity
 
@@ -103,9 +116,9 @@ for i in range(MIN_activity, len(activity)):
 	event_location				= 	attribut[8].string
 	event_description_ID		=	attribut[0].string
 	event_description_group		=	attribut[6].string
-	event_date_start			=	date_debut(attribut[1].string+attribut[3].string, 
+	event_date_start			=	date_debut(attribut[1].string+attribut[3].string,
 									attribut[2].string)
-	event_date_end				=	date_fin(attribut[1].string+attribut[3].string, 
+	event_date_end				=	date_fin(attribut[1].string+attribut[3].string,
 									event_description_ID, attribut[2].string)
 
 	try:
@@ -135,15 +148,14 @@ for i in range(MIN_activity, len(activity)):
 	except:
 		calendar.write(	ical_title		+	'Sans titre'			+	'\n')
 
-	
+
 
 
 	calendar.write("END:VEVENT\n")
 
-#calendar.write("END:VCALENDAR\n")
-
+calendar.write("END:VCALENDAR")
 print ("ICAL file correctly exported !")
-
+print ("parsing " + gr + " ok")
 
 
 
@@ -151,4 +163,5 @@ print ("ICAL file correctly exported !")
 
 # ---- Fermeture des fichiers --- #
 calendar.close()
+cours_unknown.close()
 # -------------------------------
