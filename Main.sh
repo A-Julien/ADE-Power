@@ -101,9 +101,7 @@ mv ade-a1.html ade-a2.html utf-a2.html utf-a1.html /var/log/ade
 
 echo "Done"
 
-
-
-
+#Event Debug : (befor remove the "END:VEVENT" in parser.py)
 #echo "BEGIN:VEVENT" >> ./cal.ical
 #echo "DTSTART:20161201T050000Z" >> ./cal.ical
 #echo "DTEND:20161201T053000Z" >> ./cal.ical
