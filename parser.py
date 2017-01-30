@@ -77,10 +77,16 @@ def duree_cours(code_cours):				# renvoie la durée du cours en fonction de son 
 		delta 	= 	1.5
 	elif 	code_cours in cours_2h		:
 		delta 	= 	2
-	else								:
-		print "Le code cours " + code_cours + " n'est pas dans une liste de cours!"
+	elif    code_cours in cours_3h          :
+                delta   =       3
+	elif	code_cours in cours_unknown	:
+		print "Le code cours " + code_cours + " est dans la liste de cours inconnus !"
+		delta = 2
+	else					:
+		print "Le code cours " + code_cours + " n'est pas dans une liste de cours, on le rajoute !"
 		cours_unknown.write(code_cours + "\n")
 		delta = 2
+		
 
 	return delta
 
