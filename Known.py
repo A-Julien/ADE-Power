@@ -30,7 +30,7 @@ for cours in list:
 
 	while  is_int(choix) == False or choix > 3:
 		try:
-			choix = input("le cour " + cours + "fais ? : ")
+			choix = input("le cours " + cours + "fait ? : ")
 		except:
 			print "/!\ entre un int /!\ "
 			

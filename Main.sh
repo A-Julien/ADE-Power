@@ -8,7 +8,7 @@ uri_pwd='password='
 uri_project='projectId='
 uri_rsc='resources='
 uri_and='&'
-uri_weeks='weeks=19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37'
+uri_weeks='weeks=23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42'
 
 LONGIN='WebINFO'
 PW='MPINFO'
@@ -62,6 +62,7 @@ sed -i 's/mars/mar./g' ./utf-a1.html
 sed -i 's/avr/apr/g' ./utf-a1.html
 sed -i 's/mai/may./g' ./utf-a1.html
 sed -i 's/janv/jan/g' ./utf-a1.html
+sed -i 's/juin/jun./g' ./utf-a1.html
 
 
 #A2
@@ -75,6 +76,7 @@ sed -i 's/fevr/feb/g' ./utf-a2.html
 sed -i 's/mars/mar./g' ./utf-a2.html
 sed -i 's/avr/apr/g' ./utf-a2.html
 sed -i 's/mai/may./g' ./utf-a2.html
+sed -i 's/juin/jun./g' ./utf-a2.html
 
 echo "----------------- Parsing ------------------ "
 

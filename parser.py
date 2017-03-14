@@ -30,14 +30,14 @@ except:
 	print ("BeautifulSoup can't open/create cal-"+gr+".ical")
 
 try:
-	cours_unknown = open("/home/pi/adepower/cours/cours_unknown.txt", "w")
-	with open("/home/pi/adepower/cours/cours_1h.txt") as f:
+	cours_unknown = open("/home/pi/ADE-Power/cours/cours_unknown.txt", 'r+')
+	with open("/home/pi/ADE-Power/cours/cours_1h.txt") as f:
 	    cours_1h = f.read().splitlines() 
-	with open("/home/pi/adepower/cours/cours_1h30.txt") as f:
+	with open("/home/pi/ADE-Power/cours/cours_1h30.txt") as f:
 	    cours_1h30 = f.read().splitlines() 
-	with open("/home/pi/adepower/cours/cours_2h.txt") as f:
+	with open("/home/pi/ADE-Power/cours/cours_2h.txt") as f:
 	    cours_2h = f.read().splitlines() 
-	with open("/home/pi/adepower/cours/cours_3h.txt") as f:
+	with open("/home/pi/ADE-Power/cours/cours_3h.txt") as f:
 	     cours_3h = f.read().splitlines() 
 except:
 	print("can't open folders")
@@ -79,7 +79,10 @@ def duree_cours(code_cours):				# renvoie la durée du cours en fonction de son 
 		delta 	= 	2
 	elif    code_cours in cours_3h      :
                 delta   =       3
-	else								:
+	elif    code_cours  + "\n" in cours_unknown :
+		print "!!!!!!!!le cours est deja inconu"
+		delta = 2
+	else					:
 		print "Le code cours " + code_cours + " n'est pas dans une liste de cours, on le rajoute !"
 		cours_unknown.write(code_cours + "\n")
 		delta = 2
