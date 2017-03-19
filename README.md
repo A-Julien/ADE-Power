@@ -1,7 +1,7 @@
 # ADE-Power /!\ Readme not up to date /!\
 
-<center> 
-	![ade logo](http://adepower.ddns.net/Ade-power.PNG)
+<center> 	
+	[<img src="http://adepower.ddns.net/Ade-power.PNG">]
 </center> 
 
 ## Intro
