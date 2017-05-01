@@ -65,7 +65,7 @@ def jour_semaine(jour_entree):			# indique le nombre de jours qu'il faut ajouter
 
 def date_debut(date_entree, jour_entree):	# renvoie la date de début d'événement formatée ical
 	delta				=	jour_semaine(jour_entree)
-	date_entree			=	datetime.strptime(date_entree, '%d %b. %Y%Hh%M') + timedelta(days=delta, hours=-1)
+	date_entree			=	datetime.strptime(date_entree, '%d %b. %Y%Hh%M') + timedelta(days=delta, hours=-2)
 	event_date_start 	=	date_entree.strftime('%Y%m%dT%H%M%SZ')
 	return event_date_start
 
@@ -94,7 +94,7 @@ def date_fin(date_entree, code_cours, jour_entree):		# renvoie la date de fin de
 	duree				=	duree_cours				(	code_cours						)
 	delta				=	jour_semaine			(	jour_entree						)
 	date_entree 		=	datetime.strptime		(	date_entree, 	'%d %b. %Y%Hh%M')
-	date_fin 			=	date_entree + timedelta	(	days=delta,		hours=duree-1	)
+	date_fin 			=	date_entree + timedelta	(	days=delta,		hours=duree-2	)
 	event_date_end 		=	date_fin.strftime		(	'%Y%m%dT%H%M%SZ'				)
 	return event_date_end
 
